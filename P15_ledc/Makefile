@@ -21,7 +21,7 @@ OBJ	+= $(S_OBJ)
 OBJ	+= $(s_OBJ)
 
 $(OUTPUT_BUILDDIR)/$(ALL_TARGET).bin:$(OBJ)
-	echo $(OBJ)
+	@mkdir temp
 	$(COMPILE_PD)ld -Timx6ul.lds -o $(OUTPUT_BUILDDIR)/$(ALL_TARGET).elf $^
 	$(COMPILE_PD)objcopy -O binary -S $(OUTPUT_BUILDDIR)/$(ALL_TARGET).elf $@
 	$(COMPILE_PD)objdump -D -m arm $(OUTPUT_BUILDDIR)/$(ALL_TARGET).elf > $(OUTPUT_BUILDDIR)/$(ALL_TARGET).dis
