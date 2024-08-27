@@ -1,6 +1,6 @@
-./**/*.elf
-./**/*.bin
-./**/*.vscode/
-./**/*.dis
-./**/imxdownload
-./**/*.o
+*.elf
+*.bin
+*.vscode/
+*.dis
+*imxdownload
+*.o
