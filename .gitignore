@@ -1,0 +1,6 @@
+./**/*.elf
+./**/*.bin
+./**/*.vscode/
+./**/*.dis
+./**/imxdownload
+./**/*.o
