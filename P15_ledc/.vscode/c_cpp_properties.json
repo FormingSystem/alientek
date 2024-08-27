@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/home/lizhaojun/Code_By_Li/Linux/bare_driver/alientek/P14_ledc/include/"
+            ],
+            "defines": [
+                "__GNUC__"
+//                "__init=__attribute__((__section__(\".init.text\")))"
+            ],
+            "cStandard": "gnu23",
+            "cppStandard": "c++23",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}
