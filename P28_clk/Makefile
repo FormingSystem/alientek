@@ -1,0 +1,64 @@
+CROSS_COMPILE 	?= arm-none-linux-gnueabihf-
+FINAL_TARGET	?= clk
+
+export CC 			:= $(CROSS_COMPILE)gcc
+export LD			:= $(CROSS_COMPILE)ld
+export OBJCOPY 		:= $(CROSS_COMPILE)objcopy
+export OBJDUMP 		:= $(CROSS_COMPILE)objdump
+
+#CURDIR := $(shell pwd)
+export CURDIR	:= $(shell pwd)
+export OUTDIR	:= $(CURDIR)/out
+export OBJDIR	:= $(CURDIR)/obj
+
+#project
+export PROJECT_DIR 		:= $(CURDIR)/project
+export COMMON_DIR		:= $(CURDIR)/imx6ul
+
+# driver
+export DRV_DIR 			:= $(CURDIR)/bsp
+export DRV_INCLUDE_DIR 	:= $(COMMON_DIR) $(wildcard $(DRV_DIR)/*)
+export DRV_SOURCE_DIR	:= $(wildcard $(DRV_DIR)/*)
+export DRV_OBJFILES 	:= $(patsubst %, $(OBJDIR)/%, $(notdir $(patsubst %, %.o, $(DRV_SOURCE_DIR))))
+
+DRV_Makefile_DIR		:= $(CURDIR)/bsp
+PRO_Makefile_DIR		:= $(PROJECT_DIR)
+#ALL_Makefile_DUR		:= $(PRO_Makefile_DIR)
+ALL_Makefile_DUR		:= $(DRV_Makefile_DIR) $(PRO_Makefile_DIR)
+
+export C_INCLUDE_CFG 	:= $(patsubst %, -I %, $(DRV_INCLUDE_DIR)) 
+				   			    
+
+all: build
+
+.PHONY: clean print build
+
+print:
+#	@echo "$(DRV_INCLUDE_DIR)"
+#	@echo "$(C_INCLUDE_CFG)"
+#	@echo "$(DRV_OBJFILES)"
+#	@echo "$(DRV_SOURCE_DIR)"
+#	@echo "$(DRV_Makefile)"
+	
+build: $(ALL_Makefile_DUR)
+	@-for dir in $(ALL_Makefile_DUR); do make -C $$dir/; done
+
+
+
+
+	
+$(TARGET).bin : $(OBJS)
+	$(LD) -Timx6ul.lds -o $(TARGET).elf $^
+	$(OBJCOPY) -O binary -S $(TARGET).elf $@
+	$(OBJDUMP) -D -m arm $(TARGET).elf > $(TARGET).dis
+
+$(SOBJS) : obj/%.o : %.S
+	$(CC) -Wall -nostdlib -c -O2  $(INCLUDE) -o $@ $<
+
+$(COBJS) : obj/%.o : %.c
+	$(CC) -Wall -nostdlib -c -O2  $(INCLUDE) -o $@ $<
+	
+clean:
+	rm -rf $(OBJDIR)/*
+	-for dir in $(ALL_Makefile_DUR); do make -C $$dir/ clean; done
+	
