@@ -27,9 +27,7 @@ PRO_Makefile_DIR		:= $(PROJECT_DIR)
 ALL_Makefile_DUR		:= $(DRV_Makefile_DIR) $(PRO_Makefile_DIR)
 
 export C_INCLUDE_CFG 	:= $(patsubst %, -I %, $(DRV_INCLUDE_DIR)) 
-
-
-
+				   			    
 
 all: build
 
@@ -64,6 +62,3 @@ clean:
 	rm -rf $(OBJDIR)/*
 	-for dir in $(ALL_Makefile_DUR); do make -C $$dir/ clean; done
 	
-
-
-
