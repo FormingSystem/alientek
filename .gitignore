@@ -4,3 +4,4 @@
 *.dis
 *imxdownload
 *.o
+*.d
